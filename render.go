@@ -111,6 +111,13 @@ func (r *Render) WriteHTML(w http.ResponseWriter, status int, data interface{}, 
 	w.Write(out.Bytes())
 }
 
+func (r *Render) StreamHTML(w http.ResponseWriter, status int, data interface{}, entryPoint string, files ...string) error {
+	w.Header().Set("Content-Type", "text/html; charset="+r.opts.Encoding)
+	w.WriteHeader(status)
+	err := r.HTML(w, data, entryPoint, files...)
+	return err
+}
+
 // WriteJSON marshals data to JSON and writes it to the response with the given status code.
 // If marshaling fails, the status is set to 500 and error details are written to the response body.
 func (r *Render) WriteJSON(w http.ResponseWriter, status int, data interface{}) {
