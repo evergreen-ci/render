@@ -14,9 +14,9 @@ import (
 // Render maintains a template cache and exposes methods for rendering JSON or sets of templates
 // to an HTTP response.
 type Render struct {
-	cache map[string]*template.Template
-	sync.Mutex
-	opts Options
+	cache      map[string]*template.Template
+	cacheMutex sync.Mutex
+	opts       Options
 }
 
 type Options struct {
@@ -61,8 +61,8 @@ func (r *Render) getTemplate(filenames ...string) (*template.Template, error) {
 	}
 
 	// cache miss (or cache is turned off) - try to load the templates from the filesystem
-	r.Lock()
-	defer r.Unlock()
+	r.cacheMutex.Lock()
+	defer r.cacheMutex.Unlock()
 	paths := make([]string, 0, len(filenames))
 	for _, v := range filenames {
 		paths = append(paths, filepath.Join(r.opts.Directory, v))
