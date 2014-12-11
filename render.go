@@ -34,6 +34,7 @@ type Options struct {
 	DisableCache bool
 }
 
+//New creates a new instance of Render with the given options, and an empty template cache.
 func New(opts Options) *Render {
 	if opts.Encoding == "" {
 		opts.Encoding = "UTF-8"
