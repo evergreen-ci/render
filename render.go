@@ -95,7 +95,7 @@ func (r *Render) HTML(out io.Writer, data interface{}, entryPoint string, files 
 	return nil
 }
 
-// WriteJSON calls HTML() on its args and writes the output to the response with the given status.
+// WriteHTML calls HTML() on its args and writes the output to the response with the given status.
 // If the template can't be loaded or executed, the status is set to 500 and error details
 // are written to the response body.
 func (r *Render) WriteHTML(w http.ResponseWriter, status int, data interface{}, entryPoint string, files ...string) {
@@ -111,6 +111,10 @@ func (r *Render) WriteHTML(w http.ResponseWriter, status int, data interface{}, 
 	w.Write(out.Bytes())
 }
 
+// StreamHTML calls HTML() on its args and writes the output directly to the response.
+// Does not buffer the executed template before rendering, so it can be used for writing
+// really large responses without consuming memory. If executing the template fails, the status
+// code is not changed; it will remain set to the provided value.
 func (r *Render) StreamHTML(w http.ResponseWriter, status int, data interface{}, entryPoint string, files ...string) error {
 	w.Header().Set("Content-Type", "text/html; charset="+r.opts.Encoding)
 	w.WriteHeader(status)
@@ -132,7 +136,7 @@ func (r *Render) WriteJSON(w http.ResponseWriter, status int, data interface{}) 
 	w.Write(out)
 }
 
-// WriteBinary writes raw bytes as binary data.
+// WriteBinary writes raw bytes as binary data to the reponse, with the given status code.
 func (r *Render) WriteBinary(w http.ResponseWriter, status int, v []byte) {
 	w.Header().Set("Content-Type", "application/octet-stream")
 	w.WriteHeader(status)
