@@ -1,6 +1,6 @@
 ##Render  
 
-[![GoDoc](http://godoc.org/github.com/evergreen-ci/render?status.svg)](http://godoc.org/github.com/evegreen-ci/render)
+[![GoDoc](http://godoc.org/github.com/evergreen-ci/render?status.svg)](http://godoc.org/github.com/evergreen-ci/render)
 
 Library for caching/executing templates to render HTTP responses.
 
